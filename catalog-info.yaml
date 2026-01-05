@@ -1,0 +1,52 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: foobar-backend
+  title: foobar-backend
+  description: This service provides a foobar.
+  links:
+    - url: https://grafana.foobar.tools/goto/
+      title: Go to Grafana
+      icon: dashboard # some default icons -> https://github.com/backstage/backstage/blob/master/packages/app-defaults/src/defaults/icons.tsx
+    - url: https://grafana.foobar.tools/goto/FjQ8emhNR?orgId=1
+      title: Go to logs
+      icon: search
+    - url: https://jira.foobar.tools/browse/foobar-847
+      title: KOMUEB-847
+      icon: catalog
+  annotations:
+    github.com/project-slug: foobar/app-backend
+    github.com/team-slug: foobar/apps-engineering
+    sonarqube.org/project-key: foobar-app
+  tags:
+    - foobar
+spec:
+  type: service
+  lifecycle: production
+  owner: group:apps-engineering
+  system: app-backend
+  providesApis:
+    - app-backend-graphql-api
+  consumesApis:
+    - foobar-api_api
+  dependsOn:
+    - component:foobar
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: foobar-graphql-api
+  title: foobar GraphQL API
+  description: GraphQL API for mobile app clients
+  links:
+    - title: Defined limits of input parameters
+      url: https://foobar-my.sharepoint.com/:x:/r/
+spec:
+  type: graphql
+  lifecycle: production
+  owner: group:apps-engineering
+  apiProvidedBy: app-backend
+  definition:
+    $text: ./schema.graphql
+  system: app-backend
